@@ -1,8 +1,11 @@
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -14,6 +17,11 @@ import javax.swing.JMenu;
 import javax.swing.SwingConstants;
 import javax.swing.JMenuItem;
 import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JRadioButton;
 
 public class Admin extends JFrame {
 
@@ -22,6 +30,7 @@ public class Admin extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JRadioButton[] arrays;
 
 	/**
 	 * Launch the application.
@@ -68,6 +77,37 @@ public class Admin extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
+		
+		int x=0,y=0;
+		SQL db = new SQL();
+		db.MySQLConnection("root", "", "");
+		String H = null;
+		int i=0;
+		ButtonGroup group = new ButtonGroup();
+		JRadioButton[] array = new JRadioButton[db.longitud("preguntas", ID_Admin)];
+		ActionListener myListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		for (int j = 0; j < db.longitud("preguntas", ID_Admin); j++){
+			H=db.getValues("preguntas", ID_Admin, i);
+			array[i] = new JRadioButton(H);
+			array[i].setActionCommand(H.substring(6));
+			this.setLayout(new FlowLayout());
+			group.add(array[i]);
+			array[i].addActionListener(myListener);
+			System.out.println(H);
+			array[i].setBounds(x, y, 400, 50);
+			panel.add(array[i]);
+			y=y+50;
+			i++;
+		}
+		
+		
 		/*private static Connection Conexion;
 		
 		try {

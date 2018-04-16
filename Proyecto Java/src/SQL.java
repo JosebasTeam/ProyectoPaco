@@ -108,23 +108,47 @@ public class SQL {
             return "e";
         }
     }
- 
-    public void getValues(String table_name) {
-        try {
-            String Query = "SELECT  FROM " + table_name;
+    public int longitud(String table_name,int AdminID) {
+    	try {
+       	 String Query = "SELECT DISTINCT * FROM "+table_name+" WHERE AdminID="+AdminID;
+            int n=0;
             Statement st = Conexion.createStatement();
+            
+            st.executeQuery("use proyecto");
             java.sql.ResultSet resultSet;
             resultSet = st.executeQuery(Query);
- 
-            while (resultSet.next()) {
-                System.out.println("ID: " + resultSet.getString("ID") + " "
-                        + "Nombre: " + resultSet.getString("Nombre") + " " + resultSet.getString("Apellido") + " "
-                        + "Edad: " + resultSet.getString("Edad") + " "
-                        + "Sexo: " + resultSet.getString("Sexo"));
-            }
+           
+       	while (resultSet.next()){
+       		n++;
+       	}
+       	return n;
+
+       } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, "Error en la adquisición de datos");
+           return 0;
+       }
+    	
+    }
+    public String getValues(String table_name, int AdminID, int i) {
+        try {
+        	 String Query = "SELECT DISTINCT * FROM "+table_name+" WHERE AdminID="+AdminID;
+             int n=0;
+             String H = null;
+             Statement st = Conexion.createStatement();
+             
+             st.executeQuery("use proyecto");
+             java.sql.ResultSet resultSet;
+             resultSet = st.executeQuery(Query);
+            
+        	while ((resultSet.next())&&(n<=i)){
+        		n++;
+        		H="Tema: " + resultSet.getString("Tema");
+        	}
+        	return H;
  
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error en la adquisición de datos");
+            return null;
         }
     }
  
